@@ -4,8 +4,8 @@ The script that handles distributing build jobs across Travis CI shards relies o
 
 To modify configuration file:
 
-1. Edit the docker.mk file
-  a. Modify docker_test to include date commands.
+1. Edit the docker.mk file:
+  1. Modify docker_test to include date commands.
 
     Replace 
 
@@ -19,7 +19,7 @@ To modify configuration file:
         docker build -t $*:test -f $< .
         date```
 
-  b. Replace the command that runs the dependency analyzer with a line to build your Dockerfiles.
+  2. Replace the command that runs the dependency analyzer with a line to build your Dockerfiles.
 
     For example, if adding Dockerfile for ecommerce, rabbit mq, replace
 
@@ -29,7 +29,7 @@ To modify configuration file:
 
     `images:= ecommerce rabbitmq`
 
-  c. Replace the command that runs the balancing script with a line to build all images.
+  3. Replace the command that runs the balancing script with a line to build all images.
 
     Replace
 
