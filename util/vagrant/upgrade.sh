@@ -335,5 +335,6 @@ fi
 cd /
 sudo rm -rf $TEMPDIR
 
-echo $(($SECONDS-$INICIAL))
+echo "Demore $(($SECONDS - $INICIAL)) segundos"
 echo "Upgrade complete. Please reboot your machine."
+
