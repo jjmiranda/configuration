@@ -178,7 +178,7 @@ make_config_venv () {
 }
 
 # TEMPDIR=`mktemp -d`
-TEMPDIR='jjm_migracion_imd'
+TEMPDIR='/tmp/jjm_migracion_imd'
 mkdir $TEMPDIR
 echo "Working in $TEMPDIR"
 chmod 777 $TEMPDIR
