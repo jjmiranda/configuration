@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# ./upgrade.sh -c fullstack -t named-release/dogwood
+
 # Stop if any command fails
 set -e
 
@@ -169,8 +171,8 @@ if [[ -f ${OPENEDX_ROOT}/app/edx_ansible/server-vars.yml ]]; then
 fi
 
 make_config_venv () {
-  virtualenv venv
-  source venv/bin/activate
+  # virtualenv venv
+  # source venv/bin/activate
   pip install -r configuration/pre-requirements.txt
   pip install -r configuration/requirements.txt
 }
@@ -205,7 +207,7 @@ EOF
   mongo cs_comments_service migrate-008-context.js
 
   # We are upgrading Python from 2.7.3 to 2.7.10, so remake the venvs.
-  sudo rm -rf ${OPENEDX_ROOT}/app/*/v*envs/*
+  # sudo rm -rf ${OPENEDX_ROOT}/app/*/v*envs/*
 
   echo "Upgrading to the end of Django 1.4"
   cd configuration/playbooks/vagrant
@@ -220,9 +222,10 @@ EOF
     vagrant-$CONFIGURATION-delta.yml
   cd ../../..
 
+  #YA NO es necesario porque el bootstrap despues de Julio ya te pone en python 2.7.10
   # Remake our own venv because of the Python 2.7.10 upgrade.
-  rm -rf venv
-  make_config_venv
+  # rm -rf venv
+  # make_config_venv
 
   # Need to get rid of South from edx-platform, or things won't work.
   sudo -u edxapp ${OPENEDX_ROOT}/bin/pip.edxapp uninstall -y South
@@ -251,7 +254,7 @@ EOF
     SERVICE_VARIANT=xqueue \
     ${OPENEDX_ROOT}/app/xqueue/venvs/xqueue/bin/python \
     ${OPENEDX_ROOT}/app/xqueue/xqueue/manage.py migrate \
-    --settings=xqueue.aws_settings --noinput --fake-initial
+    --settings=xqueue.aws_settings --noinput --fake
   fi
 fi
 
@@ -303,6 +306,14 @@ sudo ansible-playbook \
     $SERVER_VARS \
     vagrant-$CONFIGURATION.yml
 cd ../..
+
+# Tuve que hacer una migración al lms según fullstack
+sudo su edxapp -s /bin/bash
+cd ~
+source edxapp_env
+python /edx/app/edxapp/edx-platform/manage.py lms syncdb --settings=aws
+sudo su ubuntu -s /bin/bash
+cd $TEMPDIR
 
 # Post-upgrade work.
 
