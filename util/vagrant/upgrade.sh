@@ -10,6 +10,7 @@ sudo mkdir -p /var/log/edx
 exec > >(sudo tee /var/log/edx/upgrade-$(date +%Y%m%d-%H%M%S).log) 2>&1
 
 # defaults
+INICIAL=$SECONDS
 CONFIGURATION="none"
 TARGET="none"
 INTERACTIVE=true
@@ -309,17 +310,16 @@ sudo ansible-playbook \
     vagrant-$CONFIGURATION.yml
 cd ../..
 
-# Tuve que hacer una migración al lms según fullstack
-sudo su edxapp -s /bin/bash
-cd ~
-source edxapp_env
-python /edx/app/edxapp/edx-platform/manage.py lms syncdb --settings=aws
-sudo su ubuntu -s /bin/bash
-cd $TEMPDIR
 
 # Post-upgrade work.
 
 if [[ $TARGET == *dogwood* ]] ; then
+  # Probando una migración fullstack
+  # Tuve que hacer una migración al lms según fullstack
+  sudo -u $APPUSER -E ${OPENEDX_ROOT}/bin/python.edxapp \
+    ${OPENEDX_ROOT}/bin/manage.edxapp lms syncdb --settings=aws
+
+
   echo "Running data fixup management commands"
   sudo -u $APPUSER -E ${OPENEDX_ROOT}/bin/python.edxapp \
     ${OPENEDX_ROOT}/bin/manage.edxapp lms --settings=aws generate_course_overview --all
@@ -334,4 +334,6 @@ fi
 
 cd /
 sudo rm -rf $TEMPDIR
+
+echo $(($SECONDS-$INICIAL))
 echo "Upgrade complete. Please reboot your machine."
