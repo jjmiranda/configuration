@@ -173,8 +173,8 @@ fi
 make_config_venv () {
   # virtualenv venv
   # source venv/bin/activate
-  pip install -r configuration/pre-requirements.txt
-  pip install -r configuration/requirements.txt
+  sudo pip install -r configuration/pre-requirements.txt
+  sudo pip install -r configuration/requirements.txt
 }
 
 TEMPDIR=`mktemp -d`
