@@ -177,7 +177,8 @@ make_config_venv () {
   sudo pip install -r configuration/requirements.txt
 }
 
-TEMPDIR=`mktemp -d`
+# TEMPDIR=`mktemp -d`
+TEMPDIR='jjm_migracion_imd'
 echo "Working in $TEMPDIR"
 chmod 777 $TEMPDIR
 cd $TEMPDIR
