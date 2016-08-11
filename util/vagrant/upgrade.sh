@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# ./upgrade.sh -c fullstack -t named-release/dogwood
+# ./upgrade.sh -c fullstack -t named-release/dogwood.3
 
 # Stop if any command fails
 set -e
@@ -208,6 +208,8 @@ if [[ $TARGET == *dogwood* ]] ; then
 EOF
 
   mongo cs_comments_service migrate-008-context.js
+  # And cs_comments_service_development too :)
+  mongo cs_comments_service_development migrate-008-context.js
 
   # We are upgrading Python from 2.7.3 to 2.7.10, so remake the venvs.
   # sudo rm -rf ${OPENEDX_ROOT}/app/*/v*envs/*
@@ -330,10 +332,12 @@ if [[ $TARGET == *dogwood* ]] ; then
   # Run the forums migrations again to catch things made while this script
   # was running.
   mongo cs_comments_service migrate-008-context.js
+  # And cs_comments_service_development too :)
+  mongo cs_comments_service_development migrate-008-context.js
 fi
 
 cd /
-sudo rm -rf $TEMPDIR
+# sudo rm -rf $TEMPDIR
 
 echo "Demore $(($SECONDS - $INICIAL)) segundos"
 echo "Upgrade complete. Please reboot your machine."
