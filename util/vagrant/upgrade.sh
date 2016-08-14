@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 # ./upgrade.sh -c fullstack -t named-release/dogwood.3
+# ./upgrade.sh -c fullstack -t open-release/eucalyptus/latest
 
 # Stop if any command fails
 set -e
