@@ -314,10 +314,12 @@ cd ../..
 
 
 # Post-upgrade work.
+echo "Post-upgrade work"
 
 if [[ $TARGET == *dogwood* ]] ; then
   # Probando una migración fullstack
   # Tuve que hacer una migración al lms según fullstack
+  echo "Fullstack migration"
   sudo -u $APPUSER -E ${OPENEDX_ROOT}/bin/python.edxapp \
     ${OPENEDX_ROOT}/bin/manage.edxapp lms syncdb --settings=aws
 
@@ -331,6 +333,7 @@ if [[ $TARGET == *dogwood* ]] ; then
 
   # Run the forums migrations again to catch things made while this script
   # was running.
+  echo "Forum migrations again"
   mongo cs_comments_service migrate-008-context.js
   # And cs_comments_service_development too :)
   mongo cs_comments_service_development migrate-008-context.js
