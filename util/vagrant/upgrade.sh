@@ -228,7 +228,10 @@ EOF
     vagrant-$CONFIGURATION-delta.yml
   cd ../../..
 
-  #YA NO es necesario porque el bootstrap despues de Julio ya te pone en python 2.7.10
+  # YA NO es necesario porque el bootstrap despues de Julio ya te pone en python 2.7.10
+  #################
+  # Probar que pasa con el python 2.7.x antiguo que todavía está en TEST y PROD de IMD
+  #################
   # Remake our own venv because of the Python 2.7.10 upgrade.
   # rm -rf venv
   # make_config_venv
@@ -293,7 +296,7 @@ if [[ $TARGET == *eucalyptus* ]] ; then
   ${OPENEDX_ROOT}/bin/edxapp-migrate-lms --fake-initial
 
   echo "Clean up forums Ruby detritus"
-  sudo rm -rf ${OPENEDX_ROOT}/app/forum/.rbenv ${OPENEDX_ROOT}/app/forum/.gem
+  # sudo rm -rf ${OPENEDX_ROOT}/app/forum/.rbenv ${OPENEDX_ROOT}/app/forum/.gem
 fi
 
 # Update to target.
