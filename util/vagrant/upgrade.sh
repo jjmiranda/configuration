@@ -323,10 +323,10 @@ echo "Post-upgrade work"
 
 if [[ $TARGET == *dogwood* ]] ; then
   # Probando una migración fullstack
-  # Tuve que hacer una migración al lms según fullstack
-  echo "Fullstack migration"
-  sudo -u $APPUSER -E ${OPENEDX_ROOT}/bin/python.edxapp \
-    ${OPENEDX_ROOT}/bin/manage.edxapp lms syncdb --settings=aws
+  # Tuve que hacer una migración al lms según fullstack, no necesariamente hay que hacerla, no está en el original
+  # echo "Fullstack migration"
+  # sudo -u $APPUSER -E ${OPENEDX_ROOT}/bin/python.edxapp \
+  #   ${OPENEDX_ROOT}/bin/manage.edxapp lms syncdb --settings=aws
 
 
   echo "Running data fixup management commands"
