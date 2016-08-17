@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-# ./upgrade.sh -c fullstack -t named-release/dogwood.3
+# ./upgrade.sh -c fullstack -t named-release/dogwood.rc
 # ./upgrade.sh -c fullstack -t open-release/eucalyptus/latest
 
 # Stop if any command fails
@@ -254,6 +254,7 @@ EOF
 
   echo "Running the Django 1.8 faked migrations"
   for item in lms cms; do
+    echo "Migrando $item ..."
     sudo -u $APPUSER -E ${OPENEDX_ROOT}/bin/python.edxapp \
       ${OPENEDX_ROOT}/bin/manage.edxapp $item migrate --settings=aws --noinput --fake-initial
   done
